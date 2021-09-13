@@ -19,7 +19,7 @@ public class HigherOrderOperationsTest {
     public void shouldChangeTheColourOfBalls() {
         List<Ball> balls = asList(new Ball(BallType.TENNIS), new Ball(BallType.FOOT_BALL),
                 new Ball(BallType.TENNIS), new Ball(BallType.FOOT_BALL));
-        List<Ball> colouredBalls = balls.stream().map(Operations::changeColour).collect(Collectors.toList());
+        List<Ball> colouredBalls =  balls.stream().map(Operations::changeColour).collect(Collectors.toList());
 
         assertThat(colouredBalls)
                 .allMatch(ball -> ball.getColour() == Colour.GREEN);
@@ -58,6 +58,7 @@ public class HigherOrderOperationsTest {
         ball4.setColour(Colour.GREEN);
         List<Ball> balls = asList(ball1, ball2,
                 ball3, ball4);
+
         Set<Colour> colours = balls.stream().map(Ball::getColour).collect(Collectors.toSet());
         assertThat(colours).hasSize(3);
         assertThat(colours).contains(Colour.BLUE, Colour.WHITE, Colour.GREEN);
@@ -68,7 +69,7 @@ public class HigherOrderOperationsTest {
         List<Ball> balls = asList(new Ball(BallType.TENNIS), new Ball(BallType.FOOT_BALL),
                 new Ball(BallType.TENNIS), new Ball(BallType.FOOT_BALL));
 
-        List<Ball> ballWithChangedSize = balls.stream().map(Operations::changeSize).collect(Collectors.toList());
+        List<Ball> ballWithChangedSize = new ArrayList<>();
         assertThat(ballWithChangedSize)
                 .allMatch(ball -> ball.getSize() == 20);
     }
@@ -80,7 +81,7 @@ public class HigherOrderOperationsTest {
         List<Ball> balls = asList(new Ball(BallType.TENNIS), ball1,
                 new Ball(BallType.TENNIS), new Ball(BallType.FOOT_BALL));
         balls.forEach(System.out::println);
-        List<Ball> blueBalls = balls.stream().filter(ball -> ball.getColour() == Colour.BLUE).collect(Collectors.toList());
+        List<Ball> blueBalls = balls.stream().filter(b-> b.getColour() == Colour.BLUE).collect(Collectors.toList());
 
         assertThat(blueBalls).containsExactly(ball1);
     }
@@ -92,7 +93,7 @@ public class HigherOrderOperationsTest {
         balls.forEach(System.out::println);
 
 
-        List<Ball> filteredBalls = balls.stream().filter(b-> b.getType() == BallType.FOOT_BALL).map(Operations::changeColour).collect(Collectors.toList());
+        List<Ball> filteredBalls = balls.stream().map(Operations::changeColour).filter(b-> b.getType() == BallType.FOOT_BALL).collect(Collectors.toList());
         assertThat(filteredBalls)
                 .allMatch(ball -> ball.getType() == BallType.FOOT_BALL);
         assertThat(filteredBalls)
@@ -124,7 +125,7 @@ public class HigherOrderOperationsTest {
         List<Ball> tennisBalls = Arrays.asList(new Ball(BallType.TENNIS), new Ball(BallType.TENNIS));
         List<Ball> footBalls = Arrays.asList(new Ball(BallType.FOOT_BALL), new Ball(BallType.FOOT_BALL));
         List<List<Ball>> listOfListOfBalls = Arrays.asList(tennisBalls, footBalls);
-        List<Ball> flattenedBalls = listOfListOfBalls.stream().flatMap(b -> b.stream().map(Operations::changeColour)).collect(Collectors.toList());
+        List<Ball> flattenedBalls = listOfListOfBalls.stream().flatMap(balls -> balls.stream().map(Operations::changeColour)).collect(Collectors.toList());
 
         assertThat(flattenedBalls)
                 .allMatch(ball -> ball.getColour() == Colour.GREEN);
