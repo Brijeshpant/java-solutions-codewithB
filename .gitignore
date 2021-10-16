@@ -1,1 +1,7 @@
 /.idea/
+.gradle
+.gradle/
+build
+/javaSolutions/.gradle/
+/javaSolutions/.gradle/
+/javaSolutions/.gradle/
